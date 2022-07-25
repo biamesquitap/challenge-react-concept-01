@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { InvalidEvent, useState } from 'react'
 
 import '../styles/tasklist.scss'
 
 import { FiTrash, FiCheckSquare } from 'react-icons/fi'
+import UUID from 'uuid-int';
 
 interface Task {
   id: number;
@@ -14,11 +15,23 @@ export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
+  const generator = UUID(0);
+
   function handleCreateNewTask() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+
+    setTasks (
+      (oldTasks) =>
+      [ ...oldTasks, {
+      id: generator.uuid(),
+      title: newTaskTitle,
+      isComplete: false,
+    }
+  ])
+
   }
 
-  function handleToggleTaskCompletion(id: number) {
+  function handleToggleTaskCompletion(id: number): void {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
   }
 
@@ -34,11 +47,13 @@ export function TaskList() {
         <div className="input-group">
           <input 
             type="text" 
-            placeholder="Adicionar novo todo" 
+            placeholder="Adicionar novo to do" 
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
+            onInvalid={taskboxEmpty}
           />
           <button type="submit" data-testid="add-task-button" onClick={handleCreateNewTask}>
+
             <FiCheckSquare size={16} color="#fff"/>
           </button>
         </div>
