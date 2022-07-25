@@ -11,7 +11,7 @@
   "dependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-icons": "^4.2.0",
+    "react-icons": "^4.4.0",
     "uuid": "^8.3.2",
     "uuid-int": "^3.1.0",
     "uuidv4": "^6.2.13"

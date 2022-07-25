@@ -1,8 +1,7 @@
-import { InvalidEvent, useState } from 'react'
+import { useState } from 'react'
+import { FiTrash, FiCheckSquare } from 'react-icons/fi'
 
 import '../styles/tasklist.scss'
-
-import { FiTrash, FiCheckSquare } from 'react-icons/fi'
 import UUID from 'uuid-int';
 
 interface Task {
@@ -45,12 +44,11 @@ export function TaskList() {
         <h2>Minhas tasks</h2>
 
         <div className="input-group">
-          <input 
-            type="text" 
-            placeholder="Adicionar novo to do" 
+          <input
+            type="text"
+            placeholder="Adicionar novo to do"
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
-            onInvalid={taskboxEmpty}
           />
           <button type="submit" data-testid="add-task-button" onClick={handleCreateNewTask}>
 
@@ -65,7 +63,7 @@ export function TaskList() {
             <li key={task.id}>
               <div className={task.isComplete ? 'completed' : ''} data-testid="task" >
                 <label className="checkbox-container">
-                  <input 
+                  <input
                     type="checkbox"
                     readOnly
                     checked={task.isComplete}
@@ -81,7 +79,7 @@ export function TaskList() {
               </button>
             </li>
           ))}
-          
+
         </ul>
       </main>
     </section>
