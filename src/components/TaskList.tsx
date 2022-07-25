@@ -1,16 +1,17 @@
-import { useState } from 'react'
-import { FiTrash, FiCheckSquare } from 'react-icons/fi'
+import { useState, InvalidEvent } from 'react';
+import { FiTrash, FiCheckSquare } from 'react-icons/fi';
 
-import '../styles/tasklist.scss'
+import '../styles/tasklist.scss';
 import UUID from 'uuid-int';
 
-interface Task {
+
+interface TaskProps {
   id: number;
   title: string;
   isComplete: boolean;
 }
 
-export function TaskList() {
+export function TaskList({id, title, isComplete}: TaskProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
@@ -27,6 +28,12 @@ export function TaskList() {
       isComplete: false,
     }
   ])
+
+  function handleTaskInvalid (event: InvalidEvent<HTMLDivElement>){
+    event.target.setCustomValidity("");
+    setTasks(event.target.value)
+  } 
+
 
   }
 
@@ -49,6 +56,7 @@ export function TaskList() {
             placeholder="Adicionar novo to do"
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
+            onInvalid={handleTaskInvalid}
           />
           <button type="submit" data-testid="add-task-button" onClick={handleCreateNewTask}>
 
