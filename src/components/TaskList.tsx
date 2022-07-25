@@ -26,16 +26,14 @@ export function TaskList({id, title, isComplete}: TaskProps) {
       id: generator.uuid(),
       title: newTaskTitle,
       isComplete: false,
-    }
-  ])
+    }])
+  }
 
   function handleTaskInvalid (event: InvalidEvent<HTMLDivElement>){
     event.target.setCustomValidity("");
     setTasks(event.target.value)
-  } 
-
-
   }
+  
 
   function handleToggleTaskCompletion(id: number): void {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
