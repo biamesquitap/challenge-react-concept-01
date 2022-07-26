@@ -5,17 +5,18 @@ import '../styles/tasklist.scss';
 import UUID from 'uuid-int';
 
 
-interface TaskProps {
+interface Task {
   id: number;
   title: string;
   isComplete: boolean;
 }
 
-export function TaskList({id, title, isComplete}: TaskProps) {
+export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
   const generator = UUID(0);
+  const emptyTaskTitle = newTaskTitle.length === 0;
 
   function handleCreateNewTask() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
@@ -29,14 +30,9 @@ export function TaskList({id, title, isComplete}: TaskProps) {
     }])
   }
 
-  function handleTaskInvalid (event: InvalidEvent<HTMLDivElement>){
-    event.target.setCustomValidity("");
-    setTasks(event.target.value)
-  }
-  
-
   function handleToggleTaskCompletion(id: number): void {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+
   }
 
   function handleRemoveTask(id: number) {
@@ -54,9 +50,13 @@ export function TaskList({id, title, isComplete}: TaskProps) {
             placeholder="Adicionar novo to do"
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
-            onInvalid={handleTaskInvalid}
           />
-          <button type="submit" data-testid="add-task-button" onClick={handleCreateNewTask}>
+          <button 
+            type="submit" d
+            ata-testid="add-task-button" 
+            onClick={handleCreateNewTask}
+            disabled={emptyTaskTitle}
+          >
 
             <FiCheckSquare size={16} color="#fff"/>
           </button>
@@ -67,7 +67,11 @@ export function TaskList({id, title, isComplete}: TaskProps) {
         <ul>
           {tasks.map(task => (
             <li key={task.id}>
-              <div className={task.isComplete ? 'completed' : ''} data-testid="task" >
+              <div
+                className={task.isComplete ? 'completed' : ''}
+                data-testid="task"
+              >
+
                 <label className="checkbox-container">
                   <input
                     type="checkbox"
