@@ -9,6 +9,7 @@ interface Task {
   id: number;
   title: string;
   isComplete: boolean;
+
 }
 
 export function TaskList() {
@@ -28,15 +29,28 @@ export function TaskList() {
       title: newTaskTitle,
       isComplete: false,
     }])
+    console.log(`O id e ${generator.uuid()}`)
   }
 
   function handleToggleTaskCompletion(id: number): void {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
-
+    // MAP
+    // PARA O FIND: tasks.find(tasks => tasks.id === id)
+    setTasks((state) =>
+      state.map((task) => {
+        if(task.id === id) {
+          return {...task, isComplete: true}
+        } else {
+          return task
+        }
+      })
+    )
   }
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
+    setTasks((state) =>
+      state.filter(task => task.id !== id))
   }
 
   return (
@@ -51,9 +65,9 @@ export function TaskList() {
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
           />
-          <button 
-            type="submit" d
-            ata-testid="add-task-button" 
+          <button
+            type="submit"
+            ata-testid="add-task-button"
             onClick={handleCreateNewTask}
             disabled={emptyTaskTitle}
           >
@@ -84,7 +98,10 @@ export function TaskList() {
                 <p>{task.title}</p>
               </div>
 
-              <button type="button" data-testid="remove-task-button" onClick={() => handleRemoveTask(task.id)}>
+              <button
+                type="button"
+                data-testid="remove-task-button"
+                onClick={() => handleRemoveTask(task.id)}>
                 <FiTrash size={16}/>
               </button>
             </li>
