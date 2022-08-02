@@ -1,11 +1,11 @@
 import { useState, InvalidEvent } from "react";
 import { FiTrash, FiCheckSquare } from "react-icons/fi";
+import { v4 as uuid } from 'uuid'
 
 import "../styles/tasklist.scss";
-import UUID from "uuid-int";
 
 interface Task {
-  id: number;
+  id: string;
   title: string;
   isComplete: boolean;
 }
@@ -14,7 +14,6 @@ export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
 
-  const generator = UUID(0);
   const emptyTaskTitle = newTaskTitle.length === 0;
 
   function handleCreateNewTask() {
@@ -23,7 +22,7 @@ export function TaskList() {
     setTasks((oldTasks) => [
       ...oldTasks,
       {
-        id: generator.uuid(),
+        id: uuid(),
         title: newTaskTitle,
         isComplete: false,
       },
@@ -61,13 +60,13 @@ export function TaskList() {
         <div className="input-group">
           <input
             type="text"
-            placeholder="Adicionar novo to do"
+            placeholder="Adicionar novo todo"
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
           />
           <button
             type="submit"
-            ata-testid="add-task-button"
+            data-testid="add-task-button"
             onClick={handleCreateNewTask}
             disabled={emptyTaskTitle}
           >
